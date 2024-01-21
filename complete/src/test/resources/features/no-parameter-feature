@@ -1,0 +1,13 @@
+Feature: GreetingController - No Parameter Greeting
+
+ Scenario: Requesting greeting with an invalid name parameter
+  Given the greeting controller is available
+  When the client sends a GET request to "/greeting" with an invalid parameter "name"
+  Then the response status should be [desired status]
+  And the response should contain an error message
+
+Scenario: Requesting greeting with an empty name parameter
+  Given the greeting controller is available
+  When the client sends a GET request to "/greeting" with an empty parameter "name"
+  Then the response status should be [desired status]
+  And the response should contain an error message

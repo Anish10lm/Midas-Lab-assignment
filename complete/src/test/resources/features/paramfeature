@@ -1,0 +1,20 @@
+Feature: GreetingController - Parameterized Greeting
+
+  Scenario: Requesting greeting with a name parameter
+  Given the greeting controller is available
+  When the client sends a GET request to "/greeting" with parameter "name" as "Spring Community"
+  Then the response status should be 200 OK
+  And the response should contain the personalized greeting message "Hello, Spring Community!"
+  
+  Scenario: Requesting greeting with an empty name parameter
+  Given the greeting controller is available
+  When the client sends a GET request to "/greeting" with an empty parameter "name"
+  Then the response status should be 200 OK
+  And the response should contain the default greeting message "Hello, World!"
+  
+  Scenario: Requesting a non-existent route
+  Given the greeting controller is available
+  When the client sends a GET request to a non-existent route
+  Then the response status should be 404 Not Found
+  
+  

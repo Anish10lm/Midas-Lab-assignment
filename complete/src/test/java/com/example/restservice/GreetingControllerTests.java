@@ -27,6 +27,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class GreetingControllerTests {
@@ -35,13 +38,43 @@ public class GreetingControllerTests {
 	private MockMvc mockMvc;
 
 	@Test
+	@Given(value = "Given the greeting controller is available")
+	@When(value=" When the client sends a GET request to \"/greeting\" with parameter \"name\" as \"Spring Community\"")
 	public void noParamGreetingShouldReturnDefaultMessage() throws Exception {
 
 		this.mockMvc.perform(get("/greeting")).andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.content").value("Hello, World!"));
 	}
+	
+	@Test
+	@Given(value = " Given the greeting controller is available")
+	@When(value="When the client sends a GET request to \"/greeting\" with an empty parameter \"name\"")
+	public void paramGreetingWithEmptyNameShouldReturnDefaultMessage() throws Exception {
+	    // Given: The greeting controller is available
+
+	    this.mockMvc.perform(get("/greeting").param("name", ""))
+	        .andDo(print())
+	        .andExpect(status().isOk())
+	        .andExpect(jsonPath("$.content").value("Hello, World!"));
+	}
+	
+	
+	@Given(value = "Given the greeting controller is available")
+	@When(value="When the client sends a GET request to a non-existent route")
+	public void requestingNonExistentRouteShouldReturn404() throws Exception {
+	    // Given: The greeting controller is available
+
+	    this.mockMvc.perform(get("/nonexistent"))
+	        .andDo(print())
+	        .andExpect(status().isNotFound());
+	}
+
+
+
 
 	@Test
+	@Given(value="Given the greeting controller is available")
+	@When(value="When the client sends a GET request to \"/greeting\" with an empty parameter \"name\"")
 	public void paramGreetingShouldReturnTailoredMessage() throws Exception {
 
 		this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
